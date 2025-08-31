@@ -23,7 +23,7 @@ pip install -r requirements.txt
 
 # 4. Configure environment
 cp .env.example .env
-# Edit .env with your OpenAI API key
+## Edit .env with your OpenAI API key
 
 # 5. Test the setup
 python test_setup.py
