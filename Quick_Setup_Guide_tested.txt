@@ -1,0 +1,84 @@
+Ask Follow-ups System Verification
+Production-ready implementation with LangGraph, TruLens, and Ragas
+
+structure
+4/4 checks passed
+code Quality
+4/4 checks passed
+features
+3/4 checks passed
+deployment
+4/4 checks passed
+
+Overview
+
+Structure
+
+Code Quality
+
+Features
+
+Deployment
+System Architecture
+Core Components
+• LangGraph State Machine for workflow orchestration
+• ChromaDB vector store for document retrieval
+• TruLens for evaluation metrics
+• Ragas for RAG-specific assessment
+• Guardrails for structured outputs
+Production Features
+• FastAPI REST endpoints
+• Redis caching layer
+• Prometheus monitoring
+• Docker containerization
+• CI/CD pipeline
+Key Strengths
+Architecture
+Well-structured state machine with clear separation of concerns
+
+Evaluation
+Multi-metric assessment using industry-standard tools
+
+Production Ready
+Complete CI/CD, monitoring, and deployment setup
+
+Implementation Flow
+1
+Query Processing
+User query enters the LangGraph state machine
+
+2
+Document Retrieval
+ChromaDB retrieves relevant context using semantic search
+
+3
+Evaluation
+TruLens and Ragas assess groundedness, relevance, and confidence
+
+4
+Decision Point
+System decides: clarify or answer based on confidence thresholds
+
+5
+Response
+Either generates targeted questions or provides final answer
+
+🚀 Quick Setup Guide
+Local Development
+# 1. Setup environment
+python -m venv venv
+source venv/bin/activate
+# 2. Install dependencies
+pip install -r requirements.txt
+# 3. Configure API key
+cp .env.example .env
+# 4. Test setup
+python test_setup.py
+Production Deployment
+# 1. Docker deployment
+docker-compose up -d
+# 2. Health check
+curl http://localhost:8000/health
+# 3. Test API
+curl -X POST http://localhost:8000/query
+// with JSON payload
