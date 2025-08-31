@@ -1,251 +1,67 @@
-# 🚀 Complete Setup Guide - Ask Follow-ups System
+# 🚀 Ask Follow-ups System - Complete Setup Guide
 
 ## 📋 Prerequisites
 
 Before starting, ensure you have:
-- Python 3.9+ installed
-- Git installed
-- GitHub account
-- OpenAI API key
-- Docker installed (optional, for containerized deployment)
+- **Python 3.9+** installed ([Download Python](https://python.org/downloads/))
+- **Git** installed ([Download Git](https://git-scm.com/downloads))
+- **OpenAI API key** ([Get API key](https://platform.openai.com/api-keys))
+- **GitHub account** (for repository hosting)
+- **Docker** installed (optional, for containerized deployment)
 
-## 🏗️ Step 1: GitHub Repository Setup
+## 🏗️ Step 1: Repository Setup
 
-### 1.1 Create New Repository
+### 1.1 Create GitHub Repository
 ```bash
-# Create and navigate to your project directory
-mkdir ask-followups-system
-cd ask-followups-system
-
-# Initialize git repository
-git init
-
-# Create main branch
-git checkout -b main
-```
-
-### 1.2 Project Structure
-Create the following directory structure:
-```
-ask-followups-system/
-├── src/
-│   ├── __init__.py
-│   ├── core/
-│   │   ├── __init__.py
-│   │   ├── config.py
-│   │   ├── models.py
-│   │   └── system.py
-│   ├── evaluation/
-│   │   ├── __init__.py
-│   │   ├── evaluators.py
-│   │   └── metrics.py
-│   ├── retrieval/
-│   │   ├── __init__.py
-│   │   └── vector_store.py
-│   ├── clarification/
-│   │   ├── __init__.py
-│   │   └── generator.py
-│   └── api/
-│       ├── __init__.py
-│       ├── main.py
-│       └── routes.py
-├── tests/
-│   ├── __init__.py
-│   ├── test_system.py
-│   ├── test_evaluation.py
-│   └── conftest.py
-├── deployment/
-│   ├── docker/
-│   │   ├── Dockerfile
-│   │   └── docker-compose.yml
-│   ├── kubernetes/
-│   │   ├── deployment.yaml
-│   │   └── service.yaml
-│   └── scripts/
-│       ├── setup.sh
-│       └── deploy.sh
-├── docs/
-│   ├── README.md
-│   ├── API.md
-│   └── DEPLOYMENT.md
-├── examples/
-│   ├── streamlit_app.py
-│   ├── gradio_demo.py
-│   └── jupyter_notebook.ipynb
-├── data/
-│   └── sample_docs.json
-├── .env.example
-├── .gitignore
-├── requirements.txt
-├── requirements-dev.txt
-├── setup.py
-├── pyproject.toml
-└── README.md
-```
-
-### 1.3 Essential Files Setup
-
-**Create `.gitignore`:**
-```gitignore
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Environment
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Database
-*.db
-*.sqlite3
-chroma_db/
-data/chroma_db/
-
-# Logs
-*.log
-logs/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# API Keys
-*.key
-secrets/
-```
-
-**Create `.env.example`:**
-```env
-# OpenAI Configuration
-OPENAI_API_KEY=your_openai_api_key_here
-
-# System Configuration  
-CONFIDENCE_THRESHOLD=0.7
-GROUNDEDNESS_THRESHOLD=0.6
-CONTEXT_RELEVANCE_THRESHOLD=0.6
-ANSWER_RELEVANCE_THRESHOLD=0.7
-MAX_CLARIFICATION_ATTEMPTS=3
-
-# Database
-CHROMA_DB_PATH=./data/chroma_db
-REDIS_URL=redis://localhost:6379
-
-# API Configuration
-API_HOST=0.0.0.0
-API_PORT=8000
-LOG_LEVEL=INFO
-
-# Monitoring (optional)
-PROMETHEUS_PORT=9090
-GRAFANA_PORT=3000
-```
-
-**Create `requirements.txt`:**
-```txt
-# Core dependencies
-openai>=1.12.0
-chromadb>=0.4.22
-sentence-transformers>=2.2.2
-numpy>=1.24.3
-pandas>=2.0.3
-
-# LangGraph and LangChain
-langgraph>=0.0.55
-langchain>=0.1.17
-langchain-openai>=0.1.7
-
-# Evaluation frameworks
-trulens-eval>=0.24.1
-ragas>=0.1.7
-datasets>=2.14.0
-
-# Validation and structure
-guardrails-ai>=0.4.5
-pydantic>=2.5.0
-
-# Web frameworks
-fastapi>=0.104.1
-uvicorn[standard]>=0.24.0
-streamlit>=1.31.0
-gradio>=4.15.0
-
-# Caching and storage
-redis>=5.0.1
-aioredis>=2.0.1
-
-# Monitoring and metrics
-prometheus-client>=0.19.0
-structlog>=23.2.0
-
-# Development and testing
-pytest>=7.4.0
-pytest-asyncio>=0.21.1
-black>=23.11.0
-flake8>=6.1.0
-mypy>=1.7.0
-```
-
-**Create `requirements-dev.txt`:**
-```txt
--r requirements.txt
-
-# Development tools
-jupyter>=1.0.0
-notebook>=7.0.0
-ipykernel>=6.25.0
-
-# Testing
-pytest-cov>=4.1.0
-pytest-mock>=3.12.0
-httpx>=0.25.0
-
-# Documentation
-mkdocs>=1.5.0
-mkdocs-material>=9.4.0
-
-# Code quality
-pre-commit>=3.6.0
-isort>=5.12.0
-bandit>=1.7.5
-```
-
-## 🔧 Step 2: Local Development Setup
-
-### 2.1 Clone and Setup Environment
-```bash
-# Clone your repository (after pushing initial structure)
+# Option A: Create new repository on GitHub, then clone
 git clone https://github.com/yourusername/ask-followups-system.git
 cd ask-followups-system
 
+# Option B: Create local directory and push to GitHub
+mkdir ask-followups-system
+cd ask-followups-system
+git init
+git checkout -b main
+```
+
+### 1.2 Create Project Structure
+```bash
+# Create all necessary directories
+mkdir -p src/{core,evaluation,retrieval,clarification,api}
+mkdir -p tests
+mkdir -p deployment/{docker,kubernetes,scripts,monitoring}
+mkdir -p docs
+mkdir -p examples
+mkdir -p data
+mkdir -p logs
+
+# Create __init__.py files
+touch src/__init__.py
+touch src/core/__init__.py
+touch src/evaluation/__init__.py
+touch src/retrieval/__init__.py
+touch src/clarification/__init__.py
+touch src/api/__init__.py
+touch tests/__init__.py
+```
+
+### 1.3 Add Essential Files
+Copy the provided files to your project:
+- `.env.example` → Root directory
+- `.gitignore` → Root directory
+- `requirements.txt` → Root directory
+- `requirements-dev.txt` → Root directory
+- `docker-compose.yml` → Root directory
+- `Dockerfile` → Root directory
+- `.github/workflows/ci.yml` → `.github/workflows/` directory
+- `app.py` → Root directory (main implementation)
+- `test_setup.py` → Root directory
+- `scripts/setup.sh` → `scripts/` directory
+
+## 🔧 Step 2: Local Environment Setup
+
+### 2.1 Python Virtual Environment
+```bash
 # Create virtual environment
 python -m venv venv
 
@@ -255,12 +71,26 @@ venv\Scripts\activate
 # On macOS/Linux:
 source venv/bin/activate
 
-# Install dependencies
-pip install -r requirements.txt
-pip install -r requirements-dev.txt
+# Verify activation
+which python  # Should point to venv/bin/python
 ```
 
-### 2.2 Environment Configuration
+### 2.2 Install Dependencies
+```bash
+# Upgrade pip first
+pip install --upgrade pip
+
+# Install main dependencies
+pip install -r requirements.txt
+
+# Install development dependencies
+pip install -r requirements-dev.txt
+
+# Verify installation
+pip list | grep -E "(openai|chromadb|langgraph|trulens|ragas)"
+```
+
+### 2.3 Environment Configuration
 ```bash
 # Copy environment template
 cp .env.example .env
@@ -269,35 +99,475 @@ cp .env.example .env
 nano .env  # or use your preferred editor
 ```
 
-### 2.3 Initialize Database and Sample Data
-```bash
-# Create data directory
-mkdir -p data
+**Required environment variables:**
+```env
+# CRITICAL: Replace with your actual OpenAI API key
+OPENAI_API_KEY=sk-your-actual-openai-api-key-here
 
+# System thresholds (adjust as needed)
+CONFIDENCE_THRESHOLD=0.7
+GROUNDEDNESS_THRESHOLD=0.6
+CONTEXT_RELEVANCE_THRESHOLD=0.6
+ANSWER_RELEVANCE_THRESHOLD=0.7
+MAX_CLARIFICATION_ATTEMPTS=3
+
+# Database and caching
+CHROMA_DB_PATH=./data/chroma_db
+REDIS_URL=redis://localhost:6379
+
+# API settings
+API_HOST=0.0.0.0
+API_PORT=8000
+LOG_LEVEL=INFO
+```
+
+## 📊 Step 3: Initialize Database and Sample Data
+
+### 3.1 Create Sample Knowledge Base
+```bash
 # Create sample documents file
 cat > data/sample_docs.json << 'EOF'
 [
   {
-    "content": "Python is a high-level programming language known for its simplicity and readability. It supports multiple programming paradigms and has extensive libraries.",
+    "content": "Python is a high-level programming language known for its simplicity and readability. It supports multiple programming paradigms including procedural, object-oriented, and functional programming. Python has extensive libraries for web development, data science, machine learning, and automation.",
     "metadata": {"source": "python_guide", "category": "programming", "difficulty": "beginner"}
   },
   {
-    "content": "FastAPI is a modern, fast web framework for building APIs with Python. It provides automatic API documentation, type checking, and high performance.",
+    "content": "FastAPI is a modern, fast web framework for building APIs with Python 3.6+ based on standard Python type hints. Key features include automatic API documentation, data validation, serialization, and high performance. It's designed to be easy to use while being production-ready.",
     "metadata": {"source": "fastapi_docs", "category": "web_development", "difficulty": "intermediate"}
   },
   {
-    "content": "Machine learning involves algorithms that can learn patterns from data without explicit programming. Common techniques include supervised, unsupervised, and reinforcement learning.",
+    "content": "Machine learning is a subset of artificial intelligence that enables computers to learn and improve from experience without being explicitly programmed. Common approaches include supervised learning (with labeled data), unsupervised learning (finding patterns), and reinforcement learning (learning through rewards).",
     "metadata": {"source": "ml_handbook", "category": "ai_ml", "difficulty": "intermediate"}
+  },
+  {
+    "content": "React is a free and open-source JavaScript library for building user interfaces, particularly web applications. It uses a component-based architecture and virtual DOM for efficient rendering. React applications are built using reusable components that manage their own state.",
+    "metadata": {"source": "react_docs", "category": "frontend", "difficulty": "intermediate"}
   }
 ]
 EOF
 ```
 
-## 🧪 Step 3: Testing the Setup
-
-### 3.1 Run Unit Tests
+### 3.2 Create Data Loading Script
 ```bash
-# Run all tests
+# Create data loading script
+cat > scripts/load_sample_data.py << 'EOF'
+import json
+import os
+import sys
+sys.path.append('.')
+
+from src.core.config import Config
+from src.core.system import AskFollowupsSystem
+
+def load_sample_data():
+    """Load sample documents into the vector store"""
+    
+    # Load configuration
+    config = Config(
+        openai_api_key=os.getenv("OPENAI_API_KEY", "placeholder"),
+        vector_db_path="./data/chroma_db"
+    )
+    
+    # Initialize system
+    system = AskFollowupsSystem(config)
+    
+    # Load sample documents
+    with open("data/sample_docs.json", "r") as f:
+        documents = json.load(f)
+    
+    # Add to vector store
+    system.vector_store.add_documents(documents)
+    
+    print(f"✅ Loaded {len(documents)} sample documents")
+    return len(documents)
+
+if __name__ == "__main__":
+    load_sample_data()
+EOF
+
+chmod +x scripts/load_sample_data.py
+```
+
+## 🧪 Step 4: Test the Setup
+
+### 4.1 Basic System Test
+```bash
+# Run the setup test
+python test_setup.py
+```
+
+**Expected output:**
+```
+🧪 Testing Ask Follow-ups System Setup
+==================================================
+1. Initializing system...
+✅ System initialized successfully
+2. Loading sample documents...
+✅ Loaded 4 sample documents
+3. Testing query processing...
+
+   Test 1: 'How do I learn programming?'
+   Action: ask_clarification
+   Confidence: 0.451
+   Questions: 2
+
+   Test 2: 'What is Python used for?'
+   Action: provide_answer
+   Confidence: 0.823
+   Answer length: 245 chars
+
+✅ All tests passed! System is working correctly.
+```
+
+### 4.2 Interactive Demo Test
+```bash
+# Run the interactive demo from app.py
+python app.py
+```
+
+This will start an interactive session where you can test queries like:
+- "How do I learn?" (should trigger clarification)
+- "What is FastAPI?" (should provide direct answer)
+- "Which framework is best?" (should ask for clarification)
+
+## 🌐 Step 5: API Server Setup
+
+### 5.1 Create FastAPI Application
+Create `src/api/main.py`:
+```python
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from typing import List, Optional, Dict
+import asyncio
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+from ..core.config import Config
+from ..core.system import AskFollowupsSystem
+
+# Initialize FastAPI app
+app = FastAPI(
+    title="Ask Follow-ups API",
+    description="Intelligent Q&A system with automatic clarification",
+    version="1.0.0"
+)
+
+# Request/Response models
+class QueryRequest(BaseModel):
+    query: str
+    conversation_history: Optional[List[Dict]] = []
+
+class ClarificationRequest(BaseModel):
+    original_query: str
+    clarification_response: str
+    conversation_history: Optional[List[Dict]] = []
+
+class QueryResponse(BaseModel):
+    action: str
+    answer: Optional[str] = None
+    clarification_questions: Optional[List[str]] = []
+    confidence_scores: Dict[str, float]
+    retrieved_docs_count: int
+
+# Initialize system
+config = Config(
+    openai_api_key=os.getenv("OPENAI_API_KEY"),
+    confidence_threshold=float(os.getenv("CONFIDENCE_THRESHOLD", "0.7"))
+)
+system = AskFollowupsSystem(config)
+
+@app.post("/query", response_model=QueryResponse)
+async def process_query(request: QueryRequest):
+    """Process a user query"""
+    try:
+        result = await system.process_query(
+            request.query, 
+            request.conversation_history
+        )
+        return QueryResponse(**result)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/clarify", response_model=QueryResponse)
+async def process_clarification(request: ClarificationRequest):
+    """Process clarification response"""
+    try:
+        result = await system.process_clarification_response(
+            request.original_query,
+            request.clarification_response,
+            request.conversation_history
+        )
+        return QueryResponse(**result)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {"status": "healthy", "version": "1.0.0"}
+
+@app.get("/")
+async def root():
+    """Root endpoint"""
+    return {"message": "Ask Follow-ups API", "docs": "/docs"}
+```
+
+### 5.2 Start the API Server
+```bash
+# Start development server with auto-reload
+uvicorn src.api.main:app --reload --host 0.0.0.0 --port 8000
+
+# Test the API
+curl http://localhost:8000/health
+curl http://localhost:8000/  # Should return API info
+
+# View interactive API docs
+open http://localhost:8000/docs
+```
+
+## 🐳 Step 6: Docker Setup (Optional)
+
+### 6.1 Build and Run with Docker
+```bash
+# Create .env file with your actual API key
+cp .env.example .env
+# Edit .env with your OpenAI API key
+
+# Build and start all services
+docker-compose up --build
+
+# Or run in detached mode
+docker-compose up -d
+
+# Check status
+docker-compose ps
+
+# View logs
+docker-compose logs -f app
+```
+
+### 6.2 Test Docker Deployment
+```bash
+# Test API endpoint
+curl http://localhost:8000/health
+
+# Test query endpoint
+curl -X POST "http://localhost:8000/query" \
+  -H "Content-Type: application/json" \
+  -d '{"query": "How do I learn programming?"}'
+```
+
+## 🎨 Step 7: User Interface Options
+
+### 7.1 Streamlit Web App
+Create `examples/streamlit_app.py`:
+```python
+import streamlit as st
+import asyncio
+import sys
+import os
+sys.path.append('..')
+
+from src.core.config import Config
+from src.core.system import AskFollowupsSystem
+
+st.set_page_config(
+    page_title="Ask Follow-ups Demo",
+    page_icon="🤖",
+    layout="wide"
+)
+
+st.title("🤖 Ask Follow-ups System Demo")
+st.write("Intelligent Q&A system with automatic clarification")
+
+# Initialize system (cache it)
+@st.cache_resource
+def get_system():
+    config = Config(
+        openai_api_key=os.getenv("OPENAI_API_KEY"),
+        confidence_threshold=0.7
+    )
+    return AskFollowupsSystem(config)
+
+# Load system
+try:
+    system = get_system()
+    st.success("✅ System initialized successfully")
+except Exception as e:
+    st.error(f"❌ Failed to initialize system: {e}")
+    st.stop()
+
+# Chat interface
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+# Display chat history
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.write(message["content"])
+
+# User input
+if prompt := st.chat_input("Ask me anything..."):
+    # Add user message
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    
+    with st.chat_message("user"):
+        st.write(prompt)
+    
+    # Process query
+    with st.chat_message("assistant"):
+        with st.spinner("🔄 Processing your question..."):
+            result = asyncio.run(system.process_query(
+                prompt, 
+                st.session_state.messages[:-1]
+            ))
+        
+        # Show confidence metrics in sidebar
+        with st.sidebar:
+            st.subheader("📊 Confidence Metrics")
+            for metric, score in result["confidence_scores"].items():
+                st.metric(
+                    metric.replace("_", " ").title(), 
+                    f"{score:.3f}",
+                    delta=None
+                )
+        
+        if result["action"] == "ask_clarification":
+            st.write("❓ **I need some clarification:**")
+            for i, question in enumerate(result["clarification_questions"], 1):
+                st.write(f"{i}. {question}")
+        else:
+            st.write(result["answer"])
+    
+    # Add assistant message to history
+    if result["action"] == "ask_clarification":
+        assistant_msg = f"Clarifying questions: {'; '.join(result['clarification_questions'])}"
+    else:
+        assistant_msg = result["answer"]
+    
+    st.session_state.messages.append({"role": "assistant", "content": assistant_msg})
+```
+
+**Run Streamlit app:**
+```bash
+streamlit run examples/streamlit_app.py
+```
+
+### 7.2 Gradio Interface
+Create `examples/gradio_demo.py`:
+```python
+import gradio as gr
+import asyncio
+import sys
+import os
+sys.path.append('..')
+
+from src.core.config import Config
+from src.core.system import AskFollowupsSystem
+
+# Initialize system
+config = Config(
+    openai_api_key=os.getenv("OPENAI_API_KEY"),
+    confidence_threshold=0.7
+)
+system = AskFollowupsSystem(config)
+
+async def process_message(message, history):
+    """Process user message and return response"""
+    
+    # Convert Gradio history format to our format
+    conversation_history = []
+    for human, assistant in history:
+        if human:
+            conversation_history.append({"role": "user", "content": human})
+        if assistant:
+            conversation_history.append({"role": "assistant", "content": assistant})
+    
+    # Process query
+    result = await system.process_query(message, conversation_history)
+    
+    # Format response
+    if result["action"] == "ask_clarification":
+        response = "❓ **I need some clarification:**\n\n"
+        for i, q in enumerate(result["clarification_questions"], 1):
+            response += f"{i}. {q}\n"
+        response += f"\n*Confidence: {result['confidence_scores'].get('overall_confidence', 0):.2f}*"
+    else:
+        response = result["answer"]
+        response += f"\n\n*Confidence: {result['confidence_scores'].get('overall_confidence', 0):.2f}*"
+    
+    return response
+
+def gradio_wrapper(message, history):
+    """Synchronous wrapper for async function"""
+    return asyncio.run(process_message(message, history))
+
+# Create interface
+demo = gr.ChatInterface(
+    fn=gradio_wrapper,
+    title="🤖 Ask Follow-ups System",
+    description="Intelligent Q&A with automatic clarification detection",
+    examples=[
+        "How do I learn programming?",
+        "What's the best web framework?", 
+        "Explain machine learning concepts",
+        "How do I build a REST API?",
+        "What is Python?"
+    ],
+    cache_examples=False
+)
+
+if __name__ == "__main__":
+    demo.launch(
+        share=True,
+        server_name="0.0.0.0",
+        server_port=7860
+    )
+```
+
+**Run Gradio interface:**
+```bash
+python examples/gradio_demo.py
+```
+
+## 🧪 Step 8: Testing and Validation
+
+### 8.1 Run Unit Tests
+```bash
+# Create basic test structure
+mkdir -p tests
+
+# Create conftest.py for test configuration
+cat > tests/conftest.py << 'EOF'
+import pytest
+import os
+from src.core.config import Config
+
+@pytest.fixture
+def test_config():
+    """Test configuration"""
+    return Config(
+        openai_api_key=os.getenv("OPENAI_API_KEY", "test-key"),
+        confidence_threshold=0.7,
+        vector_db_path="./test_data/chroma_db"
+    )
+
+@pytest.fixture
+def sample_documents():
+    """Sample documents for testing"""
+    return [
+        {
+            "content": "Python is a programming language",
+            "metadata": {"source": "test", "category": "programming"}
+        }
+    ]
+EOF
+
+# Run tests
 pytest tests/ -v
 
 # Run with coverage
@@ -307,591 +577,315 @@ pytest tests/ --cov=src --cov-report=html
 open htmlcov/index.html
 ```
 
-### 3.2 Manual Testing Script
-Create `test_setup.py`:
-```python
+### 8.2 Integration Testing
+```bash
+# Test the complete workflow
+python -c "
 import asyncio
-import json
+from app import AskFollowupsSystem, Config
 import os
-from dotenv import load_dotenv
-from src.core.config import Config
-from src.core.system import AskFollowupsSystem
 
-async def test_setup():
-    """Test the basic system setup"""
+async def test():
+    config = Config(openai_api_key=os.getenv('OPENAI_API_KEY'))
+    system = AskFollowupsSystem(config)
     
-    # Load environment
-    load_dotenv()
+    # Add sample data
+    docs = [{'content': 'Test document', 'metadata': {}}]
+    system.vector_store.add_documents(docs)
     
-    # Create config
-    config = Config(
-        openai_api_key=os.getenv("OPENAI_API_KEY"),
-        confidence_threshold=0.7
-    )
-    
-    print("🧪 Testing Ask Follow-ups System Setup")
-    print("=" * 50)
-    
-    try:
-        # Initialize system
-        print("1. Initializing system...")
-        system = AskFollowupsSystem(config)
-        print("✅ System initialized successfully")
-        
-        # Load sample data
-        print("2. Loading sample documents...")
-        with open("data/sample_docs.json", "r") as f:
-            sample_docs = json.load(f)
-        
-        system.vector_store.add_documents(sample_docs)
-        print(f"✅ Loaded {len(sample_docs)} sample documents")
-        
-        # Test query processing
-        print("3. Testing query processing...")
-        test_queries = [
-            "How do I learn programming?",  # Should trigger clarification
-            "What is Python used for?",     # Should provide direct answer
-        ]
-        
-        for i, query in enumerate(test_queries, 1):
-            print(f"\n   Test {i}: '{query}'")
-            result = await system.process_query(query)
-            
-            print(f"   Action: {result['action']}")
-            print(f"   Confidence: {result['confidence_scores'].get('overall_confidence', 0):.3f}")
-            
-            if result['action'] == 'ask_clarification':
-                print(f"   Questions: {len(result['clarification_questions'])}")
-            else:
-                print(f"   Answer length: {len(result['answer'])} chars")
-        
-        print("\n✅ All tests passed! System is working correctly.")
-        return True
-        
-    except Exception as e:
-        print(f"\n❌ Test failed: {e}")
-        return False
+    # Test query
+    result = await system.process_query('What is programming?')
+    print(f'Action: {result[\"action\"]}')
+    print(f'Confidence: {result[\"confidence_scores\"]}')
 
-if __name__ == "__main__":
-    success = asyncio.run(test_setup())
-    exit(0 if success else 1)
+asyncio.run(test())
+"
 ```
 
-Run the test:
+## 🔧 Step 9: Development Tools Setup
+
+### 9.1 Code Quality Tools
 ```bash
-python test_setup.py
-```
-
-## 🐳 Step 4: Docker Setup
-
-### 4.1 Create Dockerfile
-```dockerfile
-FROM python:3.11-slim
-
-# Set working directory
-WORKDIR /app
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    gcc \
-    g++ \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy requirements first (for better caching)
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy application code
-COPY src/ ./src/
-COPY data/ ./data/
-COPY .env.example ./.env
-
-# Create necessary directories
-RUN mkdir -p /app/data/chroma_db /app/logs
-
-# Expose port
-EXPOSE 8000
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:8000/health || exit 1
-
-# Run application
-CMD ["uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
-```
-
-### 4.2 Create docker-compose.yml
-```yaml
-version: '3.8'
-
-services:
-  app:
-    build: .
-    ports:
-      - "8000:8000"
-    environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - REDIS_URL=redis://redis:6379
-      - CHROMA_DB_PATH=/app/data/chroma_db
-    volumes:
-      - ./data:/app/data
-      - ./logs:/app/logs
-    depends_on:
-      - redis
-    restart: unless-stopped
-
-  redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    restart: unless-stopped
-
-  # Optional: Monitoring stack
-  prometheus:
-    image: prom/prometheus:latest
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./deployment/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
-    restart: unless-stopped
-
-  grafana:
-    image: grafana/grafana:latest
-    ports:
-      - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-    volumes:
-      - grafana_data:/var/lib/grafana
-    restart: unless-stopped
-
-volumes:
-  redis_data:
-  grafana_data:
-```
-
-### 4.3 Build and Run
-```bash
-# Create .env file with your actual values
-cp .env.example .env
-# Edit .env with your OpenAI API key
-
-# Build and run with Docker Compose
-docker-compose up --build
-
-# Or run in detached mode
-docker-compose up -d
-
-# Check logs
-docker-compose logs -f app
-```
-
-## 🌐 Step 5: GitHub Actions CI/CD
-
-### 5.1 Create `.github/workflows/ci.yml`
-```yaml
-name: CI/CD Pipeline
-
-on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main ]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    
-    services:
-      redis:
-        image: redis:7-alpine
-        ports:
-          - 6379:6379
-        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
-    
-    - name: Cache dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('requirements*.txt') }}
-    
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install -r requirements-dev.txt
-    
-    - name: Code quality checks
-      run: |
-        # Format check
-        black --check src/ tests/
-        
-        # Lint check  
-        flake8 src/ tests/
-        
-        # Type check
-        mypy src/
-        
-        # Security check
-        bandit -r src/
-    
-    - name: Run tests
-      env:
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        REDIS_URL: redis://localhost:6379
-      run: |
-        pytest tests/ -v --cov=src --cov-report=xml
-    
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./coverage.xml
-
-  build-and-push:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-    
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v3
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    
-    - name: Build and push
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        push: true
-        tags: |
-          ghcr.io/${{ github.repository }}:latest
-          ghcr.io/${{ github.repository }}:${{ github.sha }}
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
-
-  deploy:
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Deploy to production
-      run: |
-        echo "Deploy to your preferred platform here"
-        # Add your deployment script
-```
-
-### 5.2 Repository Secrets Setup
-In your GitHub repository, go to Settings → Secrets and variables → Actions, and add:
-
-- `OPENAI_API_KEY`: Your OpenAI API key
-- `DOCKER_USERNAME`: Docker Hub username (if using Docker Hub)
-- `DOCKER_PASSWORD`: Docker Hub password
-- Any other deployment-specific secrets
-
-## 🛠️ Step 6: Local Development Workflow
-
-### 6.1 Development Setup Script
-Create `scripts/setup.sh`:
-```bash
-#!/bin/bash
-set -e
-
-echo "🚀 Setting up Ask Follow-ups System for development"
-
-# Check Python version
-python_version=$(python --version 2>&1 | awk '{print $2}')
-echo "Python version: $python_version"
-
-# Create virtual environment if it doesn't exist
-if [ ! -d "venv" ]; then
-    echo "Creating virtual environment..."
-    python -m venv venv
-fi
-
-# Activate virtual environment
-echo "Activating virtual environment..."
-source venv/bin/activate
-
-# Upgrade pip
-echo "Upgrading pip..."
-pip install --upgrade pip
-
-# Install dependencies
-echo "Installing dependencies..."
-pip install -r requirements.txt
-pip install -r requirements-dev.txt
-
 # Install pre-commit hooks
-echo "Setting up pre-commit hooks..."
+pip install pre-commit
 pre-commit install
 
-# Create .env file if it doesn't exist
-if [ ! -f ".env" ]; then
-    echo "Creating .env file..."
-    cp .env.example .env
-    echo "⚠️  Please edit .env file with your actual API keys"
-fi
+# Create .pre-commit-config.yaml
+cat > .pre-commit-config.yaml << 'EOF'
+repos:
+  - repo: https://github.com/psf/black
+    rev: 23.11.0
+    hooks:
+      - id: black
+        language_version: python3.11
 
-# Create data directories
-echo "Creating data directories..."
-mkdir -p data/chroma_db logs
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.1.0
+    hooks:
+      - id: flake8
 
-# Load sample data
-echo "Loading sample data..."
-python scripts/load_sample_data.py
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
 
-echo "✅ Setup complete!"
-echo ""
-echo "Next steps:"
-echo "1. Edit .env file with your API keys"
-echo "2. Run tests: pytest tests/"
-echo "3. Start development server: uvicorn src.api.main:app --reload"
-echo "4. Or run Streamlit demo: streamlit run examples/streamlit_app.py"
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.7.0
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-all]
+EOF
+
+# Test pre-commit
+pre-commit run --all-files
 ```
 
-### 6.2 Make it executable and run
+### 9.2 Development Scripts
 ```bash
+# Make setup script executable
 chmod +x scripts/setup.sh
+
+# Run setup script
 ./scripts/setup.sh
 ```
 
-## 🚀 Step 7: Deployment Options
+## 🚀 Step 10: Deployment Options
 
-### 7.1 Local Development Server
+### 10.1 Local Development Server
 ```bash
-# Activate environment
-source venv/bin/activate
-
-# Start API server with auto-reload
+# Start API server
 uvicorn src.api.main:app --reload --host 0.0.0.0 --port 8000
 
-# Or start Streamlit demo
+# Start Streamlit (in another terminal)
 streamlit run examples/streamlit_app.py
 
-# Or start Gradio interface
+# Start Gradio (alternative)
 python examples/gradio_demo.py
 ```
 
-### 7.2 Docker Deployment
+### 10.2 Docker Production Deployment
 ```bash
-# Build image
-docker build -t ask-followups:latest .
+# Set your OpenAI API key in .env
+echo "OPENAI_API_KEY=sk-your-actual-key-here" > .env
 
-# Run with Docker Compose
-docker-compose up -d
+# Build and start services
+docker-compose up --build -d
 
-# Check status
+# Check all services are running
 docker-compose ps
 
-# View logs
-docker-compose logs -f
+# Test the deployment
+curl http://localhost:8000/health
+curl http://localhost:8000/docs
 ```
 
-### 7.3 Cloud Deployment Options
+### 10.3 Cloud Deployment
 
 **Heroku:**
 ```bash
 # Install Heroku CLI, then:
 heroku create your-app-name
-heroku config:set OPENAI_API_KEY=your_key_here
+heroku config:set OPENAI_API_KEY=your_actual_key_here
+heroku config:set REDIS_URL=redis://your-redis-url
+
+# For container deployment:
 heroku container:push web
 heroku container:release web
+
+# Check status
+heroku logs --tail
 ```
 
 **Google Cloud Run:**
 ```bash
 # Build and push to Google Container Registry
-gcloud builds submit --tag gcr.io/your-project/ask-followups
+gcloud builds submit --tag gcr.io/your-project-id/ask-followups
 
 # Deploy to Cloud Run
 gcloud run deploy ask-followups \
-  --image gcr.io/your-project/ask-followups \
+  --image gcr.io/your-project-id/ask-followups \
   --platform managed \
   --region us-central1 \
-  --set-env-vars OPENAI_API_KEY=your_key_here
+  --set-env-vars OPENAI_API_KEY=your_key_here \
+  --allow-unauthenticated
 ```
 
-**AWS ECS/Fargate:**
+## 📊 Step 11: Monitoring Setup
+
+### 11.1 Access Monitoring Dashboards
+If using Docker Compose with monitoring:
+
 ```bash
-# Push to Amazon ECR
-aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin your-account.dkr.ecr.us-west-2.amazonaws.com
+# Prometheus metrics
+open http://localhost:9090
 
-docker tag ask-followups:latest your-account.dkr.ecr.us-west-2.amazonaws.com/ask-followups:latest
-docker push your-account.dkr.ecr.us-west-2.amazonaws.com/ask-followups:latest
-
-# Deploy using ECS CLI or CloudFormation
+# Grafana dashboards  
+open http://localhost:3000
+# Login: admin/admin
 ```
 
-## 📊 Step 8: Monitoring Setup
-
-### 8.1 Health Checks
+### 11.2 Health Monitoring
 ```bash
 # Check API health
 curl http://localhost:8000/health
 
-# Check metrics endpoint
+# Check metrics (if implemented)
 curl http://localhost:8000/metrics
+
+# Monitor logs
+docker-compose logs -f app
 ```
 
-### 8.2 Grafana Dashboard Setup
+## 🎯 Step 12: Usage Examples
+
+### 12.1 API Usage
 ```bash
-# Access Grafana (if using docker-compose)
-open http://localhost:3000
-# Login: admin/admin
+# Test basic query
+curl -X POST "http://localhost:8000/query" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "How do I learn programming?",
+    "conversation_history": []
+  }'
 
-# Import dashboard configuration from deployment/monitoring/grafana-dashboard.json
+# Test clarification flow
+curl -X POST "http://localhost:8000/clarify" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "original_query": "How do I learn?",
+    "clarification_response": "I want to learn Python for web development",
+    "conversation_history": []
+  }'
 ```
 
-## 🔄 Step 9: Development Workflow
+### 12.2 Python Integration
+```python
+import asyncio
+from src.core.config import Config
+from src.core.system import AskFollowupsSystem
 
-### 9.1 Feature Development
-```bash
-# Create feature branch
-git checkout -b feature/new-evaluation-metric
+async def example_usage():
+    # Initialize system
+    config = Config(openai_api_key="your-key-here")
+    system = AskFollowupsSystem(config)
+    
+    # Add your documents
+    documents = [
+        {
+            "content": "Your knowledge base content here...",
+            "metadata": {"source": "your_source", "category": "your_category"}
+        }
+    ]
+    system.vector_store.add_documents(documents)
+    
+    # Process queries
+    result = await system.process_query("Your question here")
+    
+    if result["action"] == "ask_clarification":
+        print("Clarification needed:")
+        for q in result["clarification_questions"]:
+            print(f"- {q}")
+    else:
+        print(f"Answer: {result['answer']}")
 
-# Make changes
-# ... edit files ...
-
-# Test changes
-pytest tests/
-black src/ tests/
-flake8 src/ tests/
-
-# Commit and push
-git add .
-git commit -m "feat: add new evaluation metric"
-git push origin feature/new-evaluation-metric
-
-# Create pull request on GitHub
+# Run example
+asyncio.run(example_usage())
 ```
-
-### 9.2 Release Process
-```bash
-# Update version in setup.py and pyproject.toml
-# Update CHANGELOG.md
-
-# Create release branch
-git checkout -b release/v1.1.0
-
-# Final testing
-pytest tests/
-docker-compose up --build -d
-# Run integration tests
-
-# Merge to main
-git checkout main
-git merge release/v1.1.0
-
-# Tag release
-git tag v1.1.0
-git push origin main --tags
-
-# GitHub Actions will automatically build and deploy
-```
-
-## 🎯 Step 10: Production Checklist
-
-### 10.1 Security
-- [ ] API keys stored securely (environment variables/secrets)
-- [ ] Input validation and sanitization implemented
-- [ ] Rate limiting configured
-- [ ] HTTPS enabled for production
-- [ ] CORS properly configured
-- [ ] Authentication/authorization if needed
-
-### 10.2 Performance
-- [ ] Redis caching enabled
-- [ ] Database connection pooling
-- [ ] Async processing for heavy operations  
-- [ ] Load balancing configured
-- [ ] CDN for static assets (if any)
-
-### 10.3 Monitoring
-- [ ] Health checks implemented
-- [ ] Prometheus metrics exposed
-- [ ] Grafana dashboards configured
-- [ ] Alerting rules set up
-- [ ] Log aggregation (ELK stack or similar)
-
-### 10.4 Reliability
-- [ ] Database backups automated
-- [ ] Disaster recovery plan
-- [ ] Auto-scaling configured
-- [ ] Circuit breakers for external APIs
-- [ ] Graceful degradation on failures
 
 ## 🆘 Troubleshooting Common Issues
 
-### Issue 1: Import Errors
+### Issue 1: OpenAI API Key Problems
 ```bash
-# Solution: Install in development mode
-pip install -e .
-
-# Or add src to Python path
-export PYTHONPATH="${PYTHONPATH}:${PWD}/src"
+# Test your API key
+python -c "
+import openai
+import os
+client = openai.OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+try:
+    response = client.models.list()
+    print('✅ API key is valid')
+except Exception as e:
+    print(f'❌ API key error: {e}')
+"
 ```
 
-### Issue 2: OpenAI API Errors
+### Issue 2: Import Errors
 ```bash
-# Check API key
-python -c "import openai; print('API key valid' if openai.api_key else 'No API key')"
+# Install in development mode
+pip install -e .
 
-# Test connection
-curl https://api.openai.com/v1/models \
-  -H "Authorization: Bearer $OPENAI_API_KEY"
+# Or add to Python path
+export PYTHONPATH="${PYTHONPATH}:${PWD}"
 ```
 
 ### Issue 3: ChromaDB Permission Issues
 ```bash
-# Fix permissions
+# Fix data directory permissions
 sudo chown -R $USER:$USER data/
 chmod -R 755 data/
 ```
 
-### Issue 4: Docker Build Issues
+### Issue 4: Port Already in Use
 ```bash
-# Clean Docker cache
-docker system prune -a
+# Find process using port 8000
+lsof -i :8000
 
-# Rebuild without cache
-docker-compose build --no-cache
+# Kill the process (replace PID)
+kill -9 <PID>
+
+# Or use different port
+uvicorn src.api.main:app --port 8001
 ```
 
-## 📚 Next Steps
+### Issue 5: Redis Connection Issues
+```bash
+# Start Redis locally
+redis-server
 
-1. **Customize the system** for your specific use case
-2. **Add your documents** to the knowledge base
-3. **Fine-tune thresholds** based on your evaluation results
-4. **Set up monitoring** for production usage
-5. **Integrate with your existing systems** using the provided examples
+# Or use Docker
+docker run -d -p 6379:6379 redis:7-alpine
 
-## 📞 Support and Community
+# Test Redis connection
+redis-cli ping
+```
 
-- **Documentation**: Check the `docs/` directory
-- **Issues**: Report bugs on GitHub Issues
-- **Discussions**: Use GitHub Discussions for questions
-- **Contributing**: See CONTRIBUTING.md for guidelines
+## ✅ Verification Checklist
+
+- [ ] Python environment activated
+- [ ] All dependencies installed
+- [ ] `.env` file configured with valid OpenAI API key
+- [ ] Sample data loaded successfully
+- [ ] `test_setup.py` passes all tests
+- [ ] API server starts without errors
+- [ ] Health check endpoint responds
+- [ ] Interactive demo works
+- [ ] Docker containers start (if using Docker)
+- [ ] Web interface accessible
+
+## 🎉 Next Steps
+
+1. **Customize for your use case:**
+   - Add your own documents to the knowledge base
+   - Adjust confidence thresholds
+   - Modify clarification strategies
+
+2. **Production deployment:**
+   - Set up proper secret management
+   - Configure monitoring and alerting
+   - Set up backup strategies
+
+3. **Integration:**
+   - Connect to your existing systems
+   - Add authentication if needed
+   - Scale based on usage patterns
+
+## 📚 Additional Resources
+
+- **API Documentation**: http://localhost:8000/docs (when running)
+- **GitHub Repository**: Your repository URL
+- **Issues/Support**: GitHub Issues page
+- **OpenAI Documentation**: https://platform.openai.com/docs
 
 ---
 
-**🎉 You're all set!** Your ask follow-ups system is ready for development and deployment. The system will automatically ask clarifying questions when confidence is low, leading to better user experiences and more accurate responses.
+**🎯 You're ready to go!** The Ask Follow-ups System is now set up and ready for development and deployment. The system will automatically ask clarifying questions when confidence is low, leading to better user experiences and more accurate responses.
