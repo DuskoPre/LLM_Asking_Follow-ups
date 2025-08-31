@@ -23,7 +23,7 @@ pip install -r requirements.txt
 
 # 4. Configure environment
 cp .env.example .env
-## Edit .env with your OpenAI API key
+### Edit .env with your OpenAI API key
 
 # 5. Test the setup
 python test_setup.py
@@ -31,10 +31,10 @@ Production Deployment:
 bash# Docker deployment
 docker-compose up -d
 
-# Or cloud deployment (choose one):
-# - Heroku: heroku container:push web
-# - Google Cloud: gcloud run deploy
-# - AWS: deploy to ECS/Fargate
+### Or cloud deployment (choose one):
+### - Heroku: heroku container:push web
+### - Google Cloud: gcloud run deploy
+### - AWS: deploy to ECS/Fargate
 🏭 Production Features Included
 
 CI/CD Pipeline: Automated testing, building, and deployment
